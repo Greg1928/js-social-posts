@@ -64,7 +64,7 @@ for (let i = 0; i < posts.length; i++) {
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="${posts[i].author.image}" alt="${posts[i].author}">                    
+                        <img class="profile-pic" src="${posts[i].author.image}" alt="${posts[i].author.name}">                    
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${posts[i].author.name}</div>
@@ -72,20 +72,20 @@ for (let i = 0; i < posts.length; i++) {
                     </div>                    
                 </div>
             </div>
-            <div class="post__text">P${posts[i].content}</div>
+            <div class="post__text">${posts[i].content}</div>
             <div class="post__image">
                 <img src="${posts[i].media}" alt="">
             </div>
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
+                        <a class="like-button  js-like-button" id="${posts[i].id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
+                        Piace a <b class="js-likes-counter" id="like-counter-${posts[i].id}">${posts[i].likes}</b> persone
                     </div>
                 </div> 
             </div>            
@@ -93,4 +93,18 @@ for (let i = 0; i < posts.length; i++) {
         `;
         post.innerHTML += postUser;
     
+}
+let liked = [];
+for ( let i = 1; i<=posts.length; i++){
+    const likeBtn = document.getElementById(i);
+    likeBtn.addEventListener("click", 
+        function(){
+            if (!liked.includes(this.id)){
+            this.classList.add("like-button--liked",".like-button:not(.like-button--liked):hover");
+            let count = document.querySelector(`#like-counter-${this.id}`);
+            count.innerHTML++;
+            liked.push(this.id);
+            }
+        }
+    );
 }
